@@ -1,0 +1,6 @@
+pybricks==3.5.0
+pybricksdev==1.0.0a50
+apache-beam==2.57.0
+bleak==0.22.2
+bleak-winrt==1.2.0
+redis==5.0.7
