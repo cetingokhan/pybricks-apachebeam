@@ -72,7 +72,7 @@ def run():
         )
         
         redis_output = messages['redis'] | 'Write to Redis Stream' >> beam.ParDo(WriteToRedis(host='localhost', port=6379, stream_key='redis_to_ble'))
-        elasticsearch_output = messages['elasticsearch'] | "PrintElasticMessages" >> beam.Map(print)
+        influx_output = messages['influx'] | "PrintInfluxMessages" >> beam.Map(print)
 
 if __name__ == '__main__':
     run()
