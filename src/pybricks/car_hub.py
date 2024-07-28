@@ -22,6 +22,7 @@ keyboard.register(stdin)
 pressed = ()
 print("OK!")
 
+my_remote.light.on(Color.BLUE)
 
 def remote_button_pressed(buttons):
     if Button.LEFT_PLUS in buttons:
@@ -43,7 +44,6 @@ def remote_button_pressed(buttons):
         
 def main():
     eye_distance = 0
-    stopped = False
     while True:    
         pressed = ()
         if not pressed:
@@ -54,15 +54,13 @@ def main():
         remote_button_pressed(pressed)
             
         current_distance = eyes.distance()
+        angle = motor_front.angle()
         if eye_distance != current_distance:
             eye_distance = current_distance
             try:
-                if stopped:
-                    if current_distance>300:
-                        stopped = False
-                else:
-                    stdout.buffer.write(bytes(ujson.dumps({"distance":current_distance}),"UTF-8"))
-            except:
+                data = ujson.dumps({"d":current_distance, "a":angle})
+                stdout.buffer.write(bytes(data.replace(" ",""),"UTF-8"))
+            except Exception as ex:
                 hub.light.on(Color.YELLOW * 0.3)
 
         if keyboard.poll(0):
@@ -77,11 +75,15 @@ def main():
                 hub.light.off()
             elif line == b"stp":
                 hub.light.on(Color.RED)    
-                #hub.speaker.beep()
+                my_remote.light.on(Color.RED)
+                hub.speaker.beep()
                 wait(10000)
-                stopped = True
                 hub.light.on(Color.GREEN)
+                my_remote.light.on(Color.BLUE)
         
         wait(0.1)
 
 main()
+
+#publish into hub
+#pybricksdev run ble --name "Pybricks Hub" .\car_hub.py

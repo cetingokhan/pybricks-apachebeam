@@ -13,3 +13,28 @@ services:
       - REDIS_PASSWORD=bitnami
       - REDIS_PORT=6379
       - REDIS_DATABASES=0
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - '8086:8086'
+    volumes:
+      - influxdb-storage:/var/lib/influxdb
+    environment:
+      - INFLUXDB_DB=db0
+      - INFLUXDB_ADMIN_USER=influxuser
+      - INFLUXDB_ADMIN_PASSWORD=influxPass
+  chronograf:
+    image: chronograf:latest
+    ports:
+      - '127.0.0.1:8888:8888'
+    volumes:
+      - chronograf-storage:/var/lib/chronograf
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_USERNAME=influxuser
+      - INFLUXDB_PASSWORD=influxPass
+volumes:
+  influxdb-storage:
+  chronograf-storage:      

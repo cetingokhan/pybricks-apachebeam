@@ -8,7 +8,7 @@ import json
 HUB_NAME = "Pybricks Hub"
 TOPIC_PRODUCE = 'ble_to_redis'
 TOPIC_CONSUME = 'redis_to_ble'
-BLE_DEVICE_ADDRESS = 'XX:XX:XX:XX:XX:XX'  # BLE cihazının MAC adresi
+BLE_DEVICE_ADDRESS = 'XX:XX:XX:XX:XX:XX'
 PYBRICKS_COMMAND_EVENT_CHAR_UUID = "c5f50002-8280-46da-89f4-6d8051e4aeef"
 
 redis_client_pool = None
